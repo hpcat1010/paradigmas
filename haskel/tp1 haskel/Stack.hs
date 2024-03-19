@@ -7,7 +7,7 @@ import Route
 data Stack = Sta [ Container ] Int deriving (Eq, Show)
 
 newS :: Int -> Stack                          -- construye una Pila con la capacidad indicada 
-newS n = Sta [] n
+newS n = Sta [] n 
 --newS n = [1..n]
 
 freeCellsS :: Stack -> Int                    -- responde la celdas disponibles en la pila
