@@ -6,6 +6,8 @@ import Container
 import Stack
 import Route
 
+import Vessel
+
 testroute1 = newR ["a", "b" ]
 testroute2 = newR ["bueno", "aire"]
 
@@ -47,6 +49,19 @@ testHoldss = [("test de holdsS stack1full container1 testroute2", holdsS stack1F
                 ,("test de holdsS stack1full stack3SemiFull testroute2", holdsS stack3SemiFull container1 testroute2)]
 
 
-        
 
-
+testVes :: [(String, Bool)]
+testVes = [ ( "test de freeCellsV Ves stack1Empty testroute", freeCellsV (Ves [stack1Empty] testroute) == 1)
+          ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Full] testroute) == 0)
+          ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Full, stack1Full] testroute) == 0)
+          ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Full, stack1Empty] testroute) == 1)
+          ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Full, stack1Full, stack1Full] testroute) == 0)
+          ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Full, stack1Full, stack1Empty] testroute) == 1)
+          ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Full, stack1Full, stack1Full, stack1Full] testroute) == 0)
+          ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Full, stack1Full, stack1Full, stack1Empty] testroute) == 1)
+          ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Full, stack1Full, stack1Empty, stack1Full] testroute) == 1)
+          ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Full, stack1Empty, stack1Full, stack1Full] testroute) == 1)
+          ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Empty, stack1Full, stack1Full, stack1Full] testroute) == 1)
+          ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Full, stack1Full, stack1Empty, stack1Empty] testroute) == 2)
+          ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Full, stack1Empty, stack1Full, stack1Empty] testroute) == 2)
+          , True ]
