@@ -24,6 +24,8 @@ stack3Empty = newS 3
 stack3SemiFull = stackS stack3Empty container1
 
 
+testVessel = newV 2 1 testroute1
+
 
 -- test :: [Bool]
 test = [ ( "test de destination"     , destinationC (container1) == "aire")
@@ -37,8 +39,8 @@ test = [ ( "test de destination"     , destinationC (container1) == "aire")
         ,( "test de freeCellsS falso", freeCellsS stack1Empty /= 2)
         ,( "test de netS stack1Empty", netS stack1Empty == 0)
         ,( "test de netS stack1Full", netS stack1Full == 2)
-        ,( "test de holdsS stack1Empty container1 testroute", holdsS stack1Empty container1 testroute1 == True) -- hay algo raro en holdsS, no se si es el test o el codigo -__-
-        ,( "test de holdsS stack1Full container1 testroute", holdsS stack1Full container1 testroute1 == False)
+        ,( "test de holdsS stack1Empty container1 testroute", holdsS stack1Empty container1 testroute1) -- hay algo raro en holdsS, no se si es el test o el codigo -__-
+        ,( "test de holdsS stack1Full container1 testroute", holdsS stack1Full container1 testroute1/= True)
         ,( "test de popS stack1Full aire", popS stack1Full "aire" == stack1Empty) -- funciona perfecto, soy muy bueno 
 
 
@@ -50,18 +52,23 @@ testHoldss = [("test de holdsS stack1full container1 testroute2", holdsS stack1F
 
 
 
-testVes :: [(String, Bool)]
-testVes = [ ( "test de freeCellsV Ves stack1Empty testroute", freeCellsV (Ves [stack1Empty] testroute) == 1)
-          ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Full] testroute) == 0)
-          ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Full, stack1Full] testroute) == 0)
-          ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Full, stack1Empty] testroute) == 1)
-          ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Full, stack1Full, stack1Full] testroute) == 0)
-          ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Full, stack1Full, stack1Empty] testroute) == 1)
-          ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Full, stack1Full, stack1Full, stack1Full] testroute) == 0)
-          ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Full, stack1Full, stack1Full, stack1Empty] testroute) == 1)
-          ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Full, stack1Full, stack1Empty, stack1Full] testroute) == 1)
-          ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Full, stack1Empty, stack1Full, stack1Full] testroute) == 1)
-          ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Empty, stack1Full, stack1Full, stack1Full] testroute) == 1)
-          ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Full, stack1Full, stack1Empty, stack1Empty] testroute) == 2)
-          ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Full, stack1Empty, stack1Full, stack1Empty] testroute) == 2)
-          , True ]
+vestest :: [(String, Bool)]
+vestest = [ ( "test de freeCellsV Ves stack1Empty testroute", freeCellsV testVessel == 2)
+           ,( "test de freeCellsV Ves stack1Empty testroute", freeCellsV testVessel /= 3)
+           ,("test de netV Ves stack1Empty testroute", netV testVessel == 0)
+           ,("test de netV Ves stack1Empty testroute", netV testVessel /= 1)
+               
+        --   ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Full] testroute1) == 0)
+        --   ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Full, stack1Full] testroute1) == 0)
+        --   ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Full, stack1Empty] testroute1) == 1)
+        --   ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Full, stack1Full, stack1Full] testroute1) == 0)
+        --   ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Full, stack1Full, stack1Empty] testroute1) == 1)
+        --   ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Full, stack1Full, stack1Full, stack1Full] testroute1) == 0)
+        --   ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Full, stack1Full, stack1Full, stack1Empty] testroute1) == 1)
+        --   ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Full, stack1Full, stack1Empty, stack1Full] testroute1) == 1)
+        --   ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Full, stack1Empty, stack1Full, stack1Full] testroute1) == 1)
+        --   ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Empty, stack1Full, stack1Full, stack1Full] testroute1) == 1)
+        --   ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Full, stack1Full, stack1Empty, stack1Empty] testroute1) == 2)
+        --   ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Full, stack1Empty, stack1Full, stack1Empty] testroute1) == 2)
+          ,("nothing", True) ]
+
