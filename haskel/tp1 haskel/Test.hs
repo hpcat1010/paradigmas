@@ -1,7 +1,7 @@
 module Test (test)
  where
 
-                                -- va a haber que hacerlo todo en un solo array
+                        -- va a haber que hacerlo todo en un solo array
 import Container
 import Stack
 import Route
