@@ -25,7 +25,7 @@ netS (Sta containers _) = sum (map netC containers) -- map takes a function and 
 
 holdsS :: Stack -> Container -> Route -> Bool -- indica si la pila puede aceptar el contenedor considerando las ciudades en la ruta
 holdsS (Sta containers n) container ruta   
-    |n < 0 = False 
+    |n > 0 = True 
     |netS (Sta containers n) + netC container > 20 = False
     |otherwise = inOrderR ruta (destinationC container) (destinationC (last containers)) 
 
