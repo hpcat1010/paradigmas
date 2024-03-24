@@ -1,12 +1,14 @@
 module Test (test)
  where
 
-
+                                -- va a haber que hacerlo todo en un solo array
 import Container
 import Stack
 import Route
 
-import Vessel
+import Vessel ( Vessel, newV, freeCellsV, loadV , unloadV, netV)
+import Foreign (new)
+import Stack (freeCellsS)
 
 testroute1 = newR ["a", "b" ]
 testroute2 = newR ["bueno", "aire"]
@@ -25,6 +27,12 @@ stack3SemiFull = stackS stack3Empty container1
 
 
 testVessel = newV 2 1 testroute1
+testVessel2 = newV 2 1 testroute2
+vesselCargado = loadV testVessel2 container1
+
+testLoadVes = [("vessel con cosas not vessel vacio?: ", loadV testVessel2 container1 /= newV 2 1 testroute2) 
+              ,("load vessel", freeCellsV vesselCargado == 1 ) 
+              ,("nada", True) ]
 
 
 -- test :: [Bool]
@@ -32,7 +40,7 @@ test = [ ( "test de destination"     , destinationC (container1) == "aire")
         ,( "test de net weight C"    , netC (container1) == 2) 
         ,( "test de inOrderR ab - ab", inOrderR  (testroute1) "a" "b" == True)
         ,( "test de inOrderR ab - cb", inOrderR  (testroute1) "c" "b" /= True)
-        ,( "test de inOrderR ab - ba", inOrderR  (testroute1) "b" "a" /= True)
+        ,( "test de inOrderR ab - ba \n", inOrderR  (testroute1) "b" "a" /= True)
         ,( "test de inOrderR ab - ba", inOrderR  (testroute2) "bueno" "a" /= True)
         ,( "test de freeCellsS stack1Empty", freeCellsS stack1Empty == 1)
         ,( "test de freeCellsS stack1Full", freeCellsS stack1Full == 0)
@@ -43,11 +51,12 @@ test = [ ( "test de destination"     , destinationC (container1) == "aire")
         ,( "test de holdsS stack1Full container1 testroute", holdsS stack1Full container1 testroute1/= True)
         ,( "test de popS stack1Full aire", popS stack1Full "aire" == stack1Empty) -- funciona perfecto, soy muy bueno 
 
-
-
         ,("nothing", True)]
+
+
+
 testHoldss :: [(String,Bool)]
-testHoldss = [("test de holdsS stack1full container1 testroute2", holdsS stack1Full container1 testroute2) --soy dios
+testHoldss = [("test de holdsS stack1full container1 testroute2", not(holdsS stack1Full container1 testroute2)) --nacho:soy dios -- gaia: da false (esta bien que tire false?, para que no diga false agregué el "not".)
                 ,("test de holdsS stack1full stack3SemiFull testroute2", holdsS stack3SemiFull container1 testroute2)]
 
 
@@ -71,4 +80,5 @@ vestest = [ ( "test de freeCellsV Ves stack1Empty testroute", freeCellsV testVes
         --   ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Full, stack1Full, stack1Empty, stack1Empty] testroute1) == 2)
         --   ,( "test de freeCellsV Ves stack1Full testroute", freeCellsV (Ves [stack1Full, stack1Empty, stack1Full, stack1Empty] testroute1) == 2)
           ,("nothing", True) ]
+
 

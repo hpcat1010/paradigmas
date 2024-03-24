@@ -3,7 +3,7 @@ module Stack -- ( Stack, newS, freeCellsS, stackS, netS, holdsS, popS )
 
 import Container
 import Route
---                            alto
+--                            alto disponible
 data Stack = Sta [ Container ] Int deriving (Eq, Show)          
 
 newS :: Int -> Stack                          -- construye una Pila con la capacidad indicada 
@@ -26,7 +26,9 @@ netS (Sta containers _) = sum (map netC containers) -- map takes a function and 
 holdsS :: Stack -> Container -> Route -> Bool -- indica si la pila puede aceptar el contenedor considerando las ciudades en la ruta
 holdsS (Sta containers n) container ruta   
     |n > 0 = True 
-    |netS (Sta containers n) > 20 = False
+    |netS (Sta containers n) >= 20 = False
+    -- agregar caso de que el stack esté casi lleno (peso) y le metan un container que pesa mucho y lo desborde
+    -- por ej, el stack tiene 19 toneladas y le meten un container de 3 toneladas
     |otherwise = inOrderR ruta (destinationC container) (destinationC (last containers)) 
 
 
