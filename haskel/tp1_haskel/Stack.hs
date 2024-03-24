@@ -26,7 +26,7 @@ holdsS :: Stack -> Container -> Route -> Bool -- indica si la pila puede aceptar
 holdsS (Sta containers cap) container ruta   
     -- |cap > 0 = True 
     | freeCellsS (Sta containers cap) > 0 
-    && netS (Sta containers cap) + netC container < 20 
+    && netS (Sta containers cap) + netC container <= 20 
     && ( isEmptyStack (Sta containers cap) ||  inOrderR ruta (destinationC container) (destinationC (last containers)) ) 
     = True
     | otherwise = False      -- es una decision!
@@ -46,7 +46,8 @@ holdsS (Sta containers n) container ruta
 -- en duda q significa "si la pila puede aceptar el contenedor considerando las ciudades en la ruta"
 --https://stackoverflow.com/questions/7376937/fastest-way-to-get-the-last-element-of-a-list-in-haskell
 
+
 popS :: Stack -> String -> Stack              -- quita del tope los contenedores con destino en la ciudad indicada
 popS (Sta containers n) ciudad
-    | any (\container -> destinationC container == ciudad) containers = Sta (filter (\container -> destinationC container /= ciudad) containers) (n+1)
+    | any (\container -> destinationC container == ciudad) containers = Sta (filter (\container -> destinationC container /= ciudad) containers) (n + length (filter (\container -> destinationC container == ciudad) containers))
     | otherwise = Sta containers n
