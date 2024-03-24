@@ -31,6 +31,10 @@ pesadotest = [("test de holdsS stackpesado containerPesado testroute1", holdsS s
 
 testVessel = newV 2 1 testroute1
 testVessel2 = newV 2 1 testroute2
+
+testVessel2x2 = newV 3 3 testroute2
+vesselcargado2x2 = loadV testVessel2x2 container1
+unloadvesselcargado2x2 = unloadV vesselcargado2x2 "aire"
 vesselCargado = loadV testVessel2 container1
 
 testVesselUnloaded = unloadV vesselCargado "aire"
@@ -94,3 +98,34 @@ vestest = [ ( "test de freeCellsV Ves stack1Empty testroute", freeCellsV testVes
           ,("nothing", True) ]
 
 
+
+          
+testPopS :: [(String, Bool)]
+testPopS = [ ("test de popS stack1Full aire", popS stack1Full "aire" == stack1Empty)
+           , ("test de popS stack1Full buenos", popS stack1Full "buenos" == stack1Full)
+           , ("test de popS stack1Empty aire", popS stack1Empty "aire" == stack1Empty)
+           , ("test de popS stack1Empty buenos", popS stack1Empty "buenos" == stack1Empty)
+           , ("test de popS stack3SemiFull aire", popS stack3SemiFull "aire" == stack3Empty)
+           , ("test de popS stack3SemiFull buenos", popS stack3SemiFull "buenos" == stack3SemiFull)
+           , ("test de popS stackpesado aire", popS stackpesado "aire" == stack3Empty)
+           , ("test de popS stackpesado buenos", popS stackpesado "buenos" == stackpesado)
+           , ("test de popS stack2Full aire", popS stack2Full "aire" /= stack2Empty)
+           , ("test de popS stack2Full buenos", popS stack2Full "buenos" == stack2Full)
+           , ("test de popS stack2Empty aire", popS stack2Empty "aire" == stack2Empty)
+           , ("test de popS stack2Empty buenos", popS stack2Empty "buenos" == stack2Empty)
+           , ("test de popS stack1Empty ciudad no existente", popS stack1Empty "ciudad" == stack1Empty)
+           , ("test de popS stack1Full ciudad no existente", popS stack1Full "ciudad" == stack1Full)
+           , ("test de popS stack3SemiFull ciudad no existente", popS stack3SemiFull "ciudad" == stack3SemiFull)
+           , ("test de popS stackpesado ciudad no existente", popS stackpesado "ciudad" == stackpesado)
+           , ("test de popS stack2Empty ciudad no existente", popS stack2Empty "ciudad" == stack2Empty)
+           , ("test de popS stack2Full ciudad no existente", popS stack2Full "ciudad" == stack2Full)
+           ]
+
+
+testUnloadV :: [(String, Bool)]
+testUnloadV = [ ("test unloadV Ves stack1Empty aire", unloadV testVessel "aire" == testVessel)
+              , ("test unloadV Ves stack1Full aire", unloadV testVessel2 "aire" /= testVessel)
+              , ("test unloadV Ves stack1Full bueno",  testVessel2  == testVesselUnloaded)
+              , ("test unloadV Ves stack1Full ciudad no existente", unloadV testVessel2 "ciudad" == testVessel2)
+              , ("test unloadV Ves stack1Empty ciudad no existente", unloadV testVessel "ciudad" == testVessel)
+              ]

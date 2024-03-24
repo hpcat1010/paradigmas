@@ -55,10 +55,9 @@ unloadV (Ves stacks route) city = Ves (removeContainerFromStacks stacks city [])
 removeContainerFromStacks :: [Stack] -> String -> [Stack] -> [Stack]
 removeContainerFromStacks [] _ modifiedStacks = modifiedStacks
 removeContainerFromStacks (stack:remainingStacks) city modifiedStacks =
-    removeContainerFromStacks remainingStacks city (modifiedStacks ++ [removeContainerFromStack stack city])
+    removeContainerFromStacks remainingStacks city (modifiedStacks ++ [popS stack city])
 
-removeContainerFromStack :: Stack -> String -> Stack
-removeContainerFromStack (Sta containers n) city = Sta (filter (\container -> destinationC container /= city) containers) n
+
 
 
 netV :: Vessel -> Int                  -- responde el peso neto en toneladas de los contenedores en el barco

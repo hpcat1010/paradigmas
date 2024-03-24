@@ -47,4 +47,6 @@ holdsS (Sta containers n) container ruta
 --https://stackoverflow.com/questions/7376937/fastest-way-to-get-the-last-element-of-a-list-in-haskell
 
 popS :: Stack -> String -> Stack              -- quita del tope los contenedores con destino en la ciudad indicada
-popS (Sta containers n) ciudad = Sta (filter (\container -> destinationC container /= ciudad) containers) (n+1) -- filter takes a predicate and a list and returns the list of elements that satisfy the predicate.
+popS (Sta containers n) ciudad
+    | any (\container -> destinationC container == ciudad) containers = Sta (filter (\container -> destinationC container /= ciudad) containers) (n+1)
+    | otherwise = Sta containers n
