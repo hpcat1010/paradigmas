@@ -6,15 +6,15 @@ import Container
 import Stack
 import Route
 
-import Vessel ( Vessel, newV, freeCellsV, loadV , unloadV, netV)
-import Foreign (new)
-import Stack (freeCellsS)
+import Vessel
 
 testroute1 = newR ["a", "b" ]
 testroute2 = newR ["bueno", "aire"]
 
 container1 = newC "aire" 2
 container2 = newC "bueno" 3
+
+containerPesado = newC "aire" 19
 
 stack1Empty = newS 1
 stack1Full = stackS stack1Empty container1
@@ -24,14 +24,26 @@ stack2Full = stackS stack2Empty container2
 
 stack3Empty = newS 3
 stack3SemiFull = stackS stack3Empty container1
+stackpesado :: Stack
+stackpesado = stackS stack3Empty containerPesado
 
+pesadotest = [("test de holdsS stackpesado containerPesado testroute1", holdsS stackpesado containerPesado testroute2)]
 
 testVessel = newV 2 1 testroute1
 testVessel2 = newV 2 1 testroute2
 vesselCargado = loadV testVessel2 container1
 
-testLoadVes = [("vessel con cosas not vessel vacio?: ", loadV testVessel2 container1 /= newV 2 1 testroute2) 
+testVesselUnloaded = unloadV vesselCargado "aire"
+
+testLoadVes = [("vessel con cosas not vessel vacio?: ", loadV testVessel2 container1 /= testVessel2) 
               ,("load vessel", freeCellsV vesselCargado == 1 ) 
+              ,("nada", True) ]
+testUnloadVes = [("vessel con cosas not vessel vacio?: ", testVesselUnloaded == testVessel2) 
+                ,("load vessel", vesselCargado == testVessel2 )
+              ,("load vessel", freeCellsV testVesselUnloaded /= 3 )
+              ,("load vessl", freeCellsV testVesselUnloaded == 2 )
+               ,("load vessel", freeCellsV testVesselUnloaded /= 1 )   
+               ,("cargado", freeCellsV vesselCargado == 1 ) 
               ,("nada", True) ]
 
 

@@ -22,17 +22,26 @@ stackS (Sta containers n) container = Sta (container:containers) (n-1)
 netS :: Stack -> Int                          -- responde el peso neto de los contenedores en la pila
 netS (Sta containers _) = sum (map netC containers) -- map takes a function and a list and applies that function to every element in the list, producing a new list.
 
+holdsS :: Stack -> Container -> Route -> Bool -- indica si la pila puede aceptar el contenedor considerando las ciudades en la ruta
+holdsS (Sta containers cap) container ruta   
+    -- |cap > 0 = True 
+    | freeCellsS (Sta containers cap) > 0 
+    && netS (Sta containers cap) + netC container < 20 
+    && ( isEmptyStack (Sta containers cap) ||  inOrderR ruta (destinationC container) (destinationC (last containers)) ) 
+    = True
+    | otherwise = False      -- es una decision!
+  
+isEmptyStack :: Stack -> Bool
+isEmptyStack (Sta [] n) = True
+isEmptyStack (Sta _ n) = False
 
+--     |n < 0 = False 
+{-
 holdsS :: Stack -> Container -> Route -> Bool -- indica si la pila puede aceptar el contenedor considerando las ciudades en la ruta
 holdsS (Sta containers n) container ruta   
-    |n > 0 = True 
-    |netS (Sta containers n) >= 20 = False
-    -- agregar caso de que el stack esté casi lleno (peso) y le metan un container que pesa mucho y lo desborde
-    -- por ej, el stack tiene 19 toneladas y le meten un container de 3 toneladas
-    |otherwise = inOrderR ruta (destinationC container) (destinationC (last containers)) 
-
-
-
+    |n >= 0 = True 
+    |netS (Sta containers n) + netC container > 20 = False
+    |otherwise = inOrderR ruta (destinationC container) (destinationC (last containers)) -}
 
 -- en duda q significa "si la pila puede aceptar el contenedor considerando las ciudades en la ruta"
 --https://stackoverflow.com/questions/7376937/fastest-way-to-get-the-last-element-of-a-list-in-haskell

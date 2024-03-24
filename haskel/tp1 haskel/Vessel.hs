@@ -45,9 +45,21 @@ f stacks container route = map (\stack -> stackS stack container) (filter (\stac
 -}
 
 -- decidir que hacer si pasan un container que no pertenece a la ruta. explota holdsS?
+------------------------
+-- unloadV :: Vessel -> String -> Vessel  -- responde un barco al que se le han descargado los contenedores que podían descargarse en la ciudad
+-- unloadV (Ves stacks ruta) ciudad = Ves (map (\stack -> popS stack ciudad) stacks) ruta
 
-unloadV :: Vessel -> String -> Vessel  -- responde un barco al que se le han descargado los contenedores que podían descargarse en la ciudad
-unloadV (Ves stacks ruta) ciudad = Ves (map (\stack -> popS stack ciudad) stacks) ruta
+unloadV :: Vessel -> String -> Vessel
+unloadV (Ves stacks route) city = Ves (removeContainerFromStacks stacks city []) route
+
+removeContainerFromStacks :: [Stack] -> String -> [Stack] -> [Stack]
+removeContainerFromStacks [] _ modifiedStacks = modifiedStacks
+removeContainerFromStacks (stack:remainingStacks) city modifiedStacks =
+    removeContainerFromStacks remainingStacks city (modifiedStacks ++ [removeContainerFromStack stack city])
+
+removeContainerFromStack :: Stack -> String -> Stack
+removeContainerFromStack (Sta containers n) city = Sta (filter (\container -> destinationC container /= city) containers) n
+
 
 netV :: Vessel -> Int                  -- responde el peso neto en toneladas de los contenedores en el barco
 netV (Ves stacks _) = sum (map netS stacks)

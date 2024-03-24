@@ -10,9 +10,9 @@ newR = Rou                                   -- forma hiper reducida.
 
 inOrderR :: Route -> String -> String -> Bool  -- indica si la primer ciudad consultada esta antes que la segunda ciudad en la ruta
 
-inOrderR (Rou []) city1 city2 = False                   -- si la lista de ciudades está vacía. 
-inOrderR (Rou (city:cities)) city1 city2 | city1 == city = elem city2 cities
+inOrderR (Rou (city:cities)) city1 city2 | city1 == city = elem city2 (city:cities) 
                                          | otherwise = inOrderR (Rou cities) city1 city2
+inOrderR (Rou []) city1 city2 = False                   -- si la lista de ciudades está vacía. 
 
 -- itera sobre la lista de ciudades, si la ciudad1 es igual a la ciudad actual (el pop del 1er elemento), entonces la ciudad2 debe estar en la lista de ciudades restantes, no importa en qué posición.
 -- (checkeado √)
