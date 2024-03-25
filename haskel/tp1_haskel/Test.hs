@@ -1,46 +1,33 @@
 module Test (test)
  where
 
-
 import Container
 import Stack
 import Route
-
 import Vessel
 
 testroute1 = newR ["a", "b" ]
 testroute2 = newR ["bueno", "aire"]
-
 container1 = newC "aire" 2
 container2 = newC "bueno" 3
-
 containerPesado = newC "aire" 19
-
 stack1Empty = newS 1
 stack1Full = stackS stack1Empty container1
-
 stack2Empty = newS 1
 stack2Full = stackS stack2Empty container2
-
 stack3Empty = newS 3
 stack3SemiFull = stackS stack3Empty container1
 stackpesado = stackS stack3Empty containerPesado
-
 pesadotest = [("test de holdsS stackpesado containerPesado testroute1", holdsS stackpesado containerPesado testroute2)]
-
 testVessel = newV 2 1 testroute1
 testVessel2 = newV 2 1 testroute2
-
 testVessel2x2 = newV 2 2 testroute2
 vesselcargado2x2 = loadV testVessel2x2 container1
 vesselcargado2x2Stack1Lleno = loadV vesselcargado2x2 container1
 unloadvesselcargado2x2 = unloadV vesselcargado2x2 "aire"
 vesselCargado = loadV testVessel2 container1
-
 fullvessel = loadV vesselCargado container1
-
 testVesselUnloaded = unloadV vesselCargado "aire"
-
 testroute3 = newR ["a", "b", "c"]
 containerA = newC "a" 1
 containerB = newC "b" 2
@@ -56,36 +43,15 @@ megaVessel5 = loadV megaVessel4 containerA
 megaVessel6 = loadV megaVessel5 containerPesadoA
 megaVessel7 = loadV megaVessel6 containerPesadoB
 
-megatest = [ ("megaVesselEmpty", megaVesselEmpty), 
-             ("megaVessel1", megaVessel1),
-             ("megaVessel2", megaVessel2),
-             ("megaVessel3", megaVessel3),
-             ("megaVessel4", megaVessel4),
-             ("megaVessel5", megaVessel5),
-             ("megaVessel6", megaVessel6),
-             ("megaVessel7", megaVessel7)]
-
-{-           
-[("megaVesselEmpty",Ves [Sta [] 3,Sta [] 3,Sta [] 3] (Rou ["a","b","c"])),
-("megaVessel1",Ves [Sta [Con "a" 1] 2,Sta [] 3,Sta [] 3] (Rou ["a","b","c"])),
-("megaVessel2",Ves [Sta [Con "a" 1] 2,Sta [Con "b" 2] 2,Sta [] 3] (Rou ["a","b","c"])),
-("megaVessel3",Ves [Sta [Con "a" 1] 2,Sta [Con "b" 2] 2,Sta [Con "c" 3] 2] (Rou ["a","b","c"])),
-("megaVessel4",Ves [Sta [] 3,Sta [Con "b" 2] 2,Sta [Con "c" 3] 2] (Rou ["a","b","c"])),
-("megaVessel5",Ves [Sta [Con "a" 1] 2,Sta [Con "b" 2] 2,Sta [Con "c" 3] 2] (Rou ["a","b","c"])),
-("megaVessel6",Ves [Sta [Con "a" 1] 2,Sta [Con "b" 2] 2,Sta [Con "c" 3] 2] (Rou ["a","b","c"]))]
-("megaVessel6",Ves [Sta [Con "a" 19,Con "a" 1] 1,Sta [Con "b" 2] 2,Sta [Con "c" 3] 2] (Rou ["a","b","c"]))]
--}
-
-{-
-[("megaVesselEmpty",Ves [Sta [] 3,Sta [] 3,Sta [] 3] (Rou ["a","b","c"])),
-("megaVessel1",Ves [Sta [Con "a" 1] 2,Sta [] 3,Sta [] 3] (Rou ["a","b","c"])),
-("megaVessel2",Ves [Sta [Con "a" 1] 2,Sta [Con "b" 2] 2,Sta [] 3] (Rou ["a","b","c"])),
-("megaVessel3",Ves [Sta [Con "a" 1] 2,Sta [Con "b" 2] 2,Sta [Con "c" 3] 2] (Rou ["a","b","c"])),
-("megaVessel4",Ves [Sta [] 3,Sta [Con "b" 2] 2,Sta [Con "c" 3] 2] (Rou ["a","b","c"])),
-("megaVessel5",Ves [Sta [Con "a" 1] 2,Sta [Con "b" 2] 2,Sta [Con "c" 3] 2] (Rou ["a","b","c"])),
-("megaVessel6",Ves [Sta [Con "a" 19,Con "a" 1] 1,Sta [Con "b" 2] 2,Sta [Con "c" 3] 2] (Rou ["a","b","c"])),
-("megaVessel7",Ves [Sta [Con "a" 19,Con "a" 1] 1,Sta [Con "b" 2] 2,Sta [Con "c" 3] 2] (Rou ["a","b","c"]))]
--}
+megatest =  [("megaVesselEmpty", show megaVesselEmpty == "Ves [Sta [] 3,Sta [] 3,Sta [] 3] (Rou [\"a\",\"b\",\"c\"])"), 
+                         ("megaVessel1", show megaVessel1 == "Ves [Sta [Con \"a\" 1] 2,Sta [] 3,Sta [] 3] (Rou [\"a\",\"b\",\"c\"])"),
+                         ("megaVessel2", show megaVessel2 == "Ves [Sta [Con \"a\" 1] 2,Sta [Con \"b\" 2] 2,Sta [] 3] (Rou [\"a\",\"b\",\"c\"])"),
+                         ("megaVessel3", show megaVessel3 == "Ves [Sta [Con \"a\" 1] 2,Sta [Con \"b\" 2] 2,Sta [Con \"c\" 3] 2] (Rou [\"a\",\"b\",\"c\"])"), 
+                         ("megaVessel4", show megaVessel4 == "Ves [Sta [] 3,Sta [Con \"b\" 2] 2,Sta [Con \"c\" 3] 2] (Rou [\"a\",\"b\",\"c\"])"),
+                         ("megaVessel5", show megaVessel5 == "Ves [Sta [Con \"a\" 1] 2,Sta [Con \"b\" 2] 2,Sta [Con \"c\" 3] 2] (Rou [\"a\",\"b\",\"c\"])"),
+                         ("megaVessel6", show megaVessel6 == "Ves [Sta [Con \"a\" 19,Con \"a\" 1] 1,Sta [Con \"b\" 2] 2,Sta [Con \"c\" 3] 2] (Rou [\"a\",\"b\",\"c\"])"),
+                         ("megaVessel7", show megaVessel7 == "Ves [Sta [Con \"a\" 19,Con \"a\" 1] 1,Sta [Con \"b\" 2] 2,Sta [Con \"c\" 3] 2] (Rou [\"a\",\"b\",\"c\"])"),
+         ("nothing", True)]
 
 testLoadVes = [("vessel con cosas not vessel vacio?: ", loadV testVessel2 container1 /= testVessel2)
               ,("load vessel", freeCellsV vesselCargado == 1 )
@@ -100,8 +66,6 @@ testUnloadVes = [("vessel con cosas not= vessel vacio", testVesselUnloaded == te
                 ,("unload 2 al mismo tiempo",unloadV fullvessel "aire" == testVessel2)
                 ,("unload 2 al mismo del mismo stack", unloadV vesselcargado2x2Stack1Lleno "aire" == testVessel2x2)
                 ,("nada", True) ]
-
-
 
 test = [ ( "test de destination"     , destinationC container1 == "aire")
         ,( "test de net weight C"    , netC container1 == 2)
@@ -119,13 +83,9 @@ test = [ ( "test de destination"     , destinationC container1 == "aire")
         ,( "test de popS stack1Full aire", popS stack1Full "aire" == stack1Empty)
         ,("nothing", True)]
 
-
-
 testHoldss :: [(String,Bool)]
 testHoldss = [("test de holdsS stack1full container1 testroute2", not (holdsS stack1Full container1 testroute2))
              ,("test de holdsS stack1full stack3SemiFull testroute2", holdsS stack3SemiFull container1 testroute2)]
-
-
 
 vestest :: [(String, Bool)]
 vestest = [ ( "test de freeCellsV Ves stack1Empty testroute", freeCellsV testVessel == 2)
@@ -133,8 +93,6 @@ vestest = [ ( "test de freeCellsV Ves stack1Empty testroute", freeCellsV testVes
            ,("test de netV Ves stack1Empty testroute", netV testVessel == 0)
            ,("test de netV Ves stack1Empty testroute", netV testVessel /= 1)
           ,("nothing", True) ]
-
-
 
 testPopS :: [(String, Bool)]
 testPopS = [ ("test de popS stack1Full aire", popS stack1Full "aire" == stack1Empty)
@@ -148,10 +106,7 @@ testPopS = [ ("test de popS stack1Full aire", popS stack1Full "aire" == stack1Em
            , ("test de popS stack2Full aire", popS stack2Full "aire" /= stack2Empty)
            , ("test de popS stack2Full buenos", popS stack2Full "buenos" == stack2Full)
            , ("test de popS stack2Empty aire", popS stack2Empty "aire" == stack2Empty)
-           , ("test de popS stack2Empty buenos", popS stack2Empty "buenos" == stack2Empty)
-           ]
-           
-
+           , ("test de popS stack2Empty buenos", popS stack2Empty "buenos" == stack2Empty)]
 
 testUnloadV :: [(String, Bool)]
 testUnloadV = [ ("test unloadV Ves stack1Empty aire", unloadV testVessel "aire" == testVessel)
