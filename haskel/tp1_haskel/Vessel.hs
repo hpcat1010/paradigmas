@@ -6,8 +6,8 @@ import Stack
 import Route
 
 data Vessel = Ves [ Stack ] Route deriving (Eq, Show)
---     cant    alto    ruta
-newV :: Int -> Int -> Route -> Vessel  -- construye un barco según una cnatida de bahias(Stacks), la altura de las mismas y una ruta
+
+newV :: Int -> Int -> Route -> Vessel  -- construye un barco según una cantidad de bahias(Stacks), la altura de las mismas y una ruta
 newV cant_bahias altura ruta = Ves (replicate cant_bahias (newS altura)) ruta
 
 freeCellsV :: Vessel -> Int            -- responde las celdas disponibles en el barco
@@ -32,6 +32,4 @@ removeContainerFromStacks (stack:remainingStacks) city modifiedStacks =
 
 netV :: Vessel -> Int                  -- responde el peso neto en toneladas de los contenedores en el barco
 netV (Ves stacks _) = sum (map netS stacks)
-
-
 

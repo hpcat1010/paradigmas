@@ -12,6 +12,3 @@ inOrderR (Rou (city:cities)) city1 city2 | city1 == city = elem city2 (city:citi
                                          | otherwise = inOrderR (Rou cities) city1 city2
 inOrderR (Rou []) city1 city2 = False                    
 
-
-
-
