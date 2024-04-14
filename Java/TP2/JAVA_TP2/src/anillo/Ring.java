@@ -4,16 +4,22 @@ package anillo;
 public class Ring {
     static public String ringEmptyErrorDescription = "Ring is empty";
     private Container currentContainer = new ContainerEmpty();
-    public Container lastAdded = new ContainerEmpty();
-    private int contador = -1;
+
+
     public Ring() {
 
     }
 
     public Ring add(Object cargo) {
-        contador++;
-        currentContainer = new ContainerNotEmpty(lastAdded, cargo, contador);
-        lastAdded = currentContainer;
+
+        if (currentContainer instanceof ContainerEmpty) {
+            currentContainer = new ContainerNotEmpty(currentContainer, currentContainer, cargo);
+            currentContainer.setNext(currentContainer);
+            currentContainer.setPrevious(currentContainer);
+        } else {
+            currentContainer = new ContainerNotEmpty(currentContainer.previousContainer(), currentContainer, cargo);
+        }
+
         return this;
     }
 
@@ -24,7 +30,6 @@ public class Ring {
     public Ring next() {
         currentContainer = currentContainer.nextContainer();
         return this;
-
     }
 
     public Ring remove() {
