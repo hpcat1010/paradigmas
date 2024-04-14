@@ -1,14 +1,23 @@
 package anillo;
 
 public class ContainerEmpty extends Container{
-    public ContainerEmpty(Object cargo) {
-        super(cargo);
+
+    public Object current( ) {
+            throw new IllegalStateException(Ring.ringEmptyErrorDescription);
+        }
+    public Container previousContainer( ) {
+        throw new IllegalStateException(Ring.ringEmptyErrorDescription);
+    }
+    public Container nextContainer() {
+        throw new IllegalStateException(Ring.ringEmptyErrorDescription);
+    }
+    public void setNext(Container container) {
+    }
+    public int size() {
+        return -1;
     }
 
-    public Object current() {
-            throw new IllegalStateException("Ring is empty");
-        }
-    public Container next() {
-        throw new IllegalStateException("Ring is empty");
+    public Container remove() {
+        throw new IllegalStateException(Ring.ringEmptyErrorDescription);
     }
 }

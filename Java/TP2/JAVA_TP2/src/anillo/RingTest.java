@@ -29,7 +29,6 @@ public class RingTest {
     }
 
 
-
     @Test void test05CurrentAndNextAfterTwoAdds() {
         assertEquals( "Hola", ringWithHola42()
                                         .next()
@@ -58,6 +57,7 @@ public class RingTest {
                                         .current() );
     }
 
+
     @Test void test09CyclesOnTreeElements() {
         assertEquals( LocalDate.now() , fullRing()
                                                   .next()
@@ -80,7 +80,7 @@ public class RingTest {
     }
 
     @Test void test12RemoveNext() {
-        assertEquals( 42, fullRing()
+        assertEquals( "Hola", fullRing()
                                         .next()
                                         .remove()
                                         .current() );

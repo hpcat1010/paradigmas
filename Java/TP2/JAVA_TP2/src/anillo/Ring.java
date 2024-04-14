@@ -1,43 +1,34 @@
 package anillo;
-import java.util.ArrayList;
+
 
 public class Ring {
-    public ArrayList<Object> elements;
-    public int currentIndex;
-
+    static public String ringEmptyErrorDescription = "Ring is empty";
+    private Container currentContainer = new ContainerEmpty();
+    public Container lastAdded = new ContainerEmpty();
+    private int contador = -1;
     public Ring() {
-        elements = new ArrayList<>();
-        elements.add(new ContainerEmpty(null));
-        currentIndex = 0;
+
     }
 
     public Ring add(Object cargo) {
-        elements.add(new ContainerNotEmpty(cargo));
-        currentIndex = elements.size() - 1;
+        contador++;
+        currentContainer = new ContainerNotEmpty(lastAdded, cargo, contador);
+        lastAdded = currentContainer;
         return this;
     }
 
     public Object current() {
-
-        if (elements.isEmpty()) {
-            throw new IllegalStateException("Ring is empty");
-        }
-        return elements.get(currentIndex);
+        return currentContainer.current();
     }
 
     public Ring next() {
-        if (elements.isEmpty()) {
-            throw new IllegalStateException("Ring is empty");
-        }
-        currentIndex = (currentIndex + 1) % elements.size();
+        currentContainer = currentContainer.nextContainer();
         return this;
+
     }
 
     public Ring remove() {
-        elements.remove(currentIndex);
-        if (currentIndex >= elements.size()) {
-            currentIndex = 0;
-        }
+        currentContainer = currentContainer.remove();
         return this;
     }
 }
