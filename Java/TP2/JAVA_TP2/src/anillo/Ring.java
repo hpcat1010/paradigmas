@@ -5,17 +5,18 @@ public class Ring {
     static public String ringEmptyErrorDescription = "Ring is empty";
     private Container currentContainer = new ContainerEmpty();
 
-
+    private int contador = 0;
     public Ring() {
 
     }
 
     public Ring add(Object cargo) {
 
-        if (currentContainer instanceof ContainerEmpty) {
+        if (contador == 0) {
             currentContainer = new ContainerNotEmpty(currentContainer, currentContainer, cargo);
             currentContainer.setNext(currentContainer);
             currentContainer.setPrevious(currentContainer);
+            contador++;
         } else {
             currentContainer = new ContainerNotEmpty(currentContainer.previousContainer(), currentContainer, cargo);
         }
