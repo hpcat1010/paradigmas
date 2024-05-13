@@ -28,12 +28,39 @@ public class Axiom {
             if (comand == 'r') {
                 if (direction == "North") {
                     direction = "East";
+                    return this;
                 }
+                if (direction == "East") {
+                    direction = "South";
+                    return this;
+                }
+                if (direction == "South") {
+                    direction = "West";
+                    return this;
+                }
+                if (direction == "West") {
+                    direction = "North";
+                    return this;
+                }
+
+
             }
             if (comand == 'l') {
                 if (direction == "North") {
                     direction = "West";
-
+                    return this;
+                }
+                if (direction == "West") {
+                    direction = "South";
+                    return this;
+                }
+                if (direction == "South") {
+                    direction = "East";
+                    return this;
+                }
+                if (direction == "East") {
+                    direction = "North";
+                    return this;
                 }
             }
         }

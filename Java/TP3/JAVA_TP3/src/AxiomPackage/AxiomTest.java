@@ -60,7 +60,7 @@ public class AxiomTest {
         Axiom axiom = new Axiom();
         axiom.Comand('r');
         axiom.Comand('l');
-        assertEquals("East", axiom.currentDirection());
+        assertEquals("North", axiom.currentDirection());
     }
     @Test
     public void deplySonda() {
