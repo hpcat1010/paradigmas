@@ -103,6 +103,13 @@ public class AxiomTest {
         Axiom axiom = new Axiom();
         assertThrowsLike("Error Catasttrofico de la Sonda", () -> axiom.Comand('d'));
     }
+    @Test
+    public void testTwoCommands() {
+        Axiom axiom = new Axiom();
+        axiom.Comand('ii');
+        assertEquals(2, axiom.currentSpeed());
+
+    }
     private static void assertThrowsLike(String ErrorMessage, Executable bodyToEval) {
         assertEquals(ErrorMessage,
                 assertThrows(Exception.class, bodyToEval).getMessage());
