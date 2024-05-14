@@ -20,93 +20,93 @@ public class AxiomTest {
     @Test
     public void testIncreaseSpeed() {
         Axiom axiom = new Axiom();
-        axiom.Comand('i');
+        axiom.Comand("i");
         assertEquals(1, axiom.currentSpeed());
     }
     @Test
     public void testDecreaseSpeed() {
         Axiom axiom = new Axiom();
-        axiom.Comand('s');
+        axiom.Comand("s");
         assertEquals(0, axiom.currentSpeed());
     }
     @Test
     public void testIncreaseSpeedTwice() {
         Axiom axiom = new Axiom();
-        axiom.Comand('i');
-        axiom.Comand('i');
+        axiom.Comand("i");
+        axiom.Comand("i");
         assertEquals(2, axiom.currentSpeed());
     }
     @Test
     public void testDecreaseSpeedTwice() {
         Axiom axiom = new Axiom();
-        axiom.Comand('s');
-        axiom.Comand('s');
+        axiom.Comand("s");
+        axiom.Comand("s");
         assertEquals(0, axiom.currentSpeed());
     }
     @Test
     public void testTurnRight() {
         Axiom axiom = new Axiom();
-        axiom.Comand('r');
+        axiom.Comand("r");
         assertEquals("East", axiom.currentDirection());
     }
     @Test
     public void testTurnLeft() {
         Axiom axiom = new Axiom();
-        axiom.Comand('l');
+        axiom.Comand("l");
         assertEquals("West", axiom.currentDirection());
     }
     @Test
     public void testTurnRightThenLeft() {
         Axiom axiom = new Axiom();
-        axiom.Comand('r');
-        axiom.Comand('l');
+        axiom.Comand("r");
+        axiom.Comand("l");
         assertEquals("North", axiom.currentDirection());
     }
     @Test
     public void deplySonda() {
         Axiom axiom = new Axiom();
-        axiom.Comand('i');
-        axiom.Comand('d');
+        axiom.Comand("i");
+        axiom.Comand("d");
         assertTrue(axiom.currentSonda());
     }
     @Test
     public void retractSonda() {
         Axiom axiom = new Axiom();
-        axiom.Comand('i');
-        axiom.Comand('d');
-        axiom.Comand('f');
+        axiom.Comand("i");
+        axiom.Comand("d");
+        axiom.Comand("f");
         assertFalse(axiom.currentSonda());
     }
     @Test
     public void testSondaCannotStop() {
         Axiom axiom = new Axiom();
-        axiom.Comand('i');
-        axiom.Comand('d');
-        assertThrowsLike("Error Catasttrofico de la Sonda", () -> axiom.Comand('s'));
+        axiom.Comand("i");
+        axiom.Comand("d");
+        assertThrowsLike("Error Catasttrofico de la Sonda", () -> axiom.Comand("s"));
     }
     @Test
     public void testSondaCannotTurnRight() {
         Axiom axiom = new Axiom();
-        axiom.Comand('i');
-        axiom.Comand('d');
-        assertThrowsLike("Error Catasttrofico de la Sonda", () -> axiom.Comand('r'));
+        axiom.Comand("i");
+        axiom.Comand("d");
+        assertThrowsLike("Error Catasttrofico de la Sonda", () -> axiom.Comand("r"));
     }
     @Test
     public void testSondaCannotTurnLeft() {
         Axiom axiom = new Axiom();
-        axiom.Comand('i');
-        axiom.Comand('d');
-        assertThrowsLike("Error Catasttrofico de la Sonda", () -> axiom.Comand('l'));
+        axiom.Comand("i");
+        axiom.Comand("d");
+        assertThrowsLike("Error Catasttrofico de la Sonda", () -> axiom.Comand("l"));
     }
     @Test
     public void testSondaCannotDeployWhenStopped() {
         Axiom axiom = new Axiom();
-        assertThrowsLike("Error Catasttrofico de la Sonda", () -> axiom.Comand('d'));
+        assertThrowsLike("Error Catasttrofico de la Sonda", () -> axiom.Comand("d"));
     }
     @Test
     public void testTwoCommands() {
         Axiom axiom = new Axiom();
-        axiom.Comand('ii');
+        axiom.Comand("ii");
         assertEquals(2, axiom.currentSpeed());
 
     }
