@@ -1,10 +1,9 @@
 package AxiomPackage;
 
-import java.util.Objects;
-
 public class Axiom {
-    private int speed = 0;
-    private String direction = "North";
+    public static final String ErrorSonda = "Error Catasttrofico de la Sonda";
+    private Velocity currentSpeed = new Speed0();
+    private Direccions currentDirection = new North();
     private boolean sonda = false;
 
     public Axiom() {
@@ -80,54 +79,35 @@ public class Axiom {
     }
         */     // this but now make it work for strings such as "iirlrrllliiiddididrl"
 
-    public Axiom Comand(String comand) {
-        for (int i = 0; i < comand.length(); i++) {
-            if (sonda && speed <= 1 && comand.charAt(i) == 's') {
-                throw new RuntimeException("Error Catasttrofico de la Sonda");
+    public Axiom Command(String command) {
+        for (int i = 0; i < command.length(); i++) {
+            if (sonda && currentSpeed.getSpeed() <= 1 && command.charAt(i) == 's') {
+                throw new RuntimeException(ErrorSonda);
             } else {
-                if (comand.charAt(i) == 'i') {
-                    speed = speed + 1;
+                if (command.charAt(i) == 'i') {
+                    currentSpeed =  currentSpeed.speedUp();
                 }
-                if (comand.charAt(i) == 's') {
-                    speed = speed - 1;
-                    if (speed < 0) {
-                        speed = 0;
-                    }
+                if (command.charAt(i) == 's') {
+                    currentSpeed = currentSpeed.slowDown();
                 }
             }
-            if (sonda && comand.charAt(i) == 'r' || sonda && comand.charAt(i) == 'l') {
-                throw new RuntimeException("Error Catasttrofico de la Sonda");
+            if (sonda && command.charAt(i) == 'r' || sonda && command.charAt(i) == 'l') {
+                throw new RuntimeException(ErrorSonda);
             } else {
-                if (comand.charAt(i) == 'r') {
-                    if (Objects.equals(direction, "North")) {
-                        direction = "East";
-                    } else if (Objects.equals(direction, "East")) {
-                        direction = "South";
-                    } else if (Objects.equals(direction, "South")) {
-                        direction = "West";
-                    } else if (Objects.equals(direction, "West")) {
-                        direction = "North";
-                    }
+                if (command.charAt(i) == 'r') {
+                    currentDirection = currentDirection.turnRight();
                 }
-                if (comand.charAt(i) == 'l') {
-                    if (Objects.equals(direction, "North")) {
-                        direction = "West";
-                    } else if (Objects.equals(direction, "West")) {
-                        direction = "South";
-                    } else if (Objects.equals(direction, "South")) {
-                        direction = "East";
-                    } else if (Objects.equals(direction, "East")) {
-                        direction = "North";
-                    }
+                if (command.charAt(i) == 'l') {
+                    currentDirection = currentDirection.turnLeft();
                 }
             }
-            if (comand.charAt(i) == 'd') {
-                if (speed == 0) {
-                    throw new RuntimeException("Error Catasttrofico de la Sonda");
+            if (command.charAt(i) == 'd') {
+                if (currentSpeed.getSpeed() == 0) {
+                    throw new RuntimeException(ErrorSonda);
                 }
                 sonda = true;
             }
-            if (comand.charAt(i) == 'f') {
+            if (command.charAt(i) == 'f') {
                 sonda = false;
             }
         }
@@ -136,11 +116,11 @@ public class Axiom {
     }
 
     public int currentSpeed() {
-        return speed;
+        return currentSpeed.getSpeed();
     }
 
     public String currentDirection() {
-        return direction;
+        return currentDirection.getDirection();
     }
 
     public boolean currentSonda() {
