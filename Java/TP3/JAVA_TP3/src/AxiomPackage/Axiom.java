@@ -97,11 +97,11 @@ public class Axiom {
                 }
 
             if (command.charAt(i) == 'r') {
-                canTurn(currentDirection);
+                currentDirection.canTurn(sonda);
                 currentDirection = currentDirection.turnRight();
             }
             if (command.charAt(i) == 'l') {
-                canTurn(currentDirection);
+                currentDirection.canTurn(sonda);
                 currentDirection = currentDirection.turnLeft();
             }
 
@@ -132,8 +132,7 @@ public class Axiom {
     public boolean currentSonda() {
         return sonda;
     }
-    public void canTurn(Direccions direction) {
-        direction.canTurn(this);
-    }
+
+
 
 }
