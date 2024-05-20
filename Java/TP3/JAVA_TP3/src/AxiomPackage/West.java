@@ -15,4 +15,11 @@ public class West extends Direccions {
     public String getDirection() {
         return "West";
     }
+
+    @Override
+    public void canTurn(Axiom axiom) {
+        if (axiom.currentSonda()) {
+            throw new RuntimeException(Axiom.ErrorSonda);
+        }
+    }
 }

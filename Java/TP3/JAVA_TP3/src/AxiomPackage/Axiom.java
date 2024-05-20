@@ -4,7 +4,7 @@ public class Axiom {
     public static final String ErrorSonda = "Error Catasttrofico de la Sonda";
     private Velocity currentSpeed = new Speed0();
     private Direccions currentDirection = new North();
-    private boolean sonda = false;
+    public boolean sonda = false;
 
     public Axiom() {
     }
@@ -77,43 +77,49 @@ public class Axiom {
         }
         return this;
     }
-        */     // this but now make it work for strings such as "iirlrrllliiiddididrl"
+             // this but now make it work for strings such as "iirlrrllliiiddididrl"
 
-    public Axiom Command(String command) {
+    //            if (sonda && command.charAt(i) == 'r' || sonda && command.charAt(i) == 'l') {
+//                throw new RuntimeException(ErrorSonda);
+//            } else { */ //amongus
+
+    public void Command(String command) {
+
+
         for (int i = 0; i < command.length(); i++) {
-            if (sonda && currentSpeed.getSpeed() <= 1 && command.charAt(i) == 's') {
-                throw new RuntimeException(ErrorSonda);
-            } else {
+
                 if (command.charAt(i) == 'i') {
-                    currentSpeed =  currentSpeed.speedUp();
+                    currentSpeed = currentSpeed.speedUp();
                 }
                 if (command.charAt(i) == 's') {
+                    currentSpeed.canSlowDown();
                     currentSpeed = currentSpeed.slowDown();
                 }
+
+            if (command.charAt(i) == 'r') {
+                canTurn(currentDirection);
+                currentDirection = currentDirection.turnRight();
             }
-            if (sonda && command.charAt(i) == 'r' || sonda && command.charAt(i) == 'l') {
-                throw new RuntimeException(ErrorSonda);
-            } else {
-                if (command.charAt(i) == 'r') {
-                    currentDirection = currentDirection.turnRight();
-                }
-                if (command.charAt(i) == 'l') {
-                    currentDirection = currentDirection.turnLeft();
-                }
+            if (command.charAt(i) == 'l') {
+                canTurn(currentDirection);
+                currentDirection = currentDirection.turnLeft();
             }
+
             if (command.charAt(i) == 'd') {
-                if (currentSpeed.getSpeed() == 0) {
-                    throw new RuntimeException(ErrorSonda);
-                }
+                currentSpeed.canDeploySonda();
                 sonda = true;
             }
             if (command.charAt(i) == 'f') {
                 sonda = false;
             }
         }
-        return this;
-
     }
+
+
+
+
+
+
 
     public int currentSpeed() {
         return currentSpeed.getSpeed();
@@ -126,4 +132,8 @@ public class Axiom {
     public boolean currentSonda() {
         return sonda;
     }
+    public void canTurn(Direccions direction) {
+        direction.canTurn(this);
+    }
+
 }

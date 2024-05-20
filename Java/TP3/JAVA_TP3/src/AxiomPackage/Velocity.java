@@ -8,9 +8,8 @@ public abstract class Velocity {
     public abstract Velocity slowDown();
     public abstract int getSpeed();
 
+    public abstract void canDeploySonda();
 
 
-
-
-
+    public abstract void canSlowDown() ;
 }

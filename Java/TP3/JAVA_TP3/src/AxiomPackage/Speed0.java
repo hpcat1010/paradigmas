@@ -6,7 +6,7 @@ public class Speed0 extends Velocity {
 
 
     public Velocity speedUp() {
-        Velocity next = new SpeedNot0(previous, (speed + 1));
+        Velocity next = new Speed1(previous, (speed + 1));
         next.previous = this;
         next.speed = 1;
         return next;
@@ -21,10 +21,15 @@ public class Speed0 extends Velocity {
         return speed;
     }
 
+    @Override
+    public void canDeploySonda() {
+            throw new RuntimeException(Axiom.ErrorSonda);
+    }
 
+    @Override
+    public void canSlowDown() {
 
-
-
+    }
 
 
 }

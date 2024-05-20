@@ -95,7 +95,7 @@ public class AxiomTest {
         Axiom axiom = new Axiom();
         axiom.Command("i");
         axiom.Command("d");
-        assertThrowsLike("Error Catasttrofico de la Sonda", () -> axiom.Command("s"));
+        assertThrowsLike(() -> axiom.Command("s"));
     }
 
     @Test
@@ -103,7 +103,7 @@ public class AxiomTest {
         Axiom axiom = new Axiom();
         axiom.Command("i");
         axiom.Command("d");
-        assertThrowsLike("Error Catasttrofico de la Sonda", () -> axiom.Command("r"));
+        assertThrowsLike(() -> axiom.Command("r"));
     }
 
     @Test
@@ -111,13 +111,13 @@ public class AxiomTest {
         Axiom axiom = new Axiom();
         axiom.Command("i");
         axiom.Command("d");
-        assertThrowsLike("Error Catasttrofico de la Sonda", () -> axiom.Command("l"));
+        assertThrowsLike(() -> axiom.Command("l"));
     }
 
     @Test
     public void testSondaCannotDeployWhenStopped() {
         Axiom axiom = new Axiom();
-        assertThrowsLike("Error Catasttrofico de la Sonda", () -> axiom.Command("d"));
+        assertThrowsLike(() -> axiom.Command("d"));
     }
     @Test
     public void testDeployAndRetractSonda() {
@@ -171,8 +171,7 @@ public class AxiomTest {
     }
 
 
-    private static void assertThrowsLike(String ErrorMessage, Executable bodyToEval) {
-        assertEquals(ErrorMessage,
-                assertThrows(Exception.class, bodyToEval).getMessage());
+    private static void assertThrowsLike(Executable bodyToEval) {
+        assertEquals( Axiom.ErrorSonda, assertThrows(Exception.class, bodyToEval).getMessage());
     }
 }

@@ -1,6 +1,6 @@
 package AxiomPackage;
 
-public class East extends Direccions{
+public class East extends Direccions {
 
     @Override
     public Direccions turnRight() {
@@ -16,4 +16,13 @@ public class East extends Direccions{
     public String getDirection() {
         return "East";
     }
+
+    @Override
+    public void canTurn(Axiom axiom) {
+        if (axiom.currentSonda()) {
+            throw new RuntimeException(Axiom.ErrorSonda);
+        }
+    }
 }
+
+
