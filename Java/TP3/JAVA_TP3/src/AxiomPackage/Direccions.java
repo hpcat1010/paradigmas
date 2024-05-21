@@ -7,7 +7,7 @@ public abstract class Direccions {
 
     public abstract String getDirection();
 
-    public abstract void canTurn(boolean sonda);
+
 
 
 }

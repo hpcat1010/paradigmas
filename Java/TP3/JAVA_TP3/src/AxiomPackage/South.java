@@ -16,10 +16,5 @@ public class South extends Direccions{
         return "South";
     }
 
-    @Override
-    public void canTurn(boolean sonda) {
-        if (sonda){
-            throw new RuntimeException(Axiom.ErrorSonda);
-        }
-    }
+
 }

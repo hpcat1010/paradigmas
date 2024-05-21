@@ -2,9 +2,9 @@ package AxiomPackage;
 
 public class Axiom {
     public static final String ErrorSonda = "Error Catasttrofico de la Sonda";
-    private Velocity currentSpeed = new Speed0();
+    private VelocityPilot currentSpeed = new Speed0();
     private Direccions currentDirection = new North();
-    public boolean sonda = false;
+    public SondaState sondaState = new SondaNotDeployed();
 
     public Axiom() {
     }
@@ -83,42 +83,40 @@ public class Axiom {
 //                throw new RuntimeException(ErrorSonda);
 //            } else { */ //amongus
 
+
+    //no iterativo/imperativo,hay q delegar!!!!!
     public void Command(String command) {
+
 
 
         for (int i = 0; i < command.length(); i++) {
 
-                if (command.charAt(i) == 'i') {
-                    currentSpeed = currentSpeed.speedUp();
-                }
-                if (command.charAt(i) == 's') {
-                    currentSpeed.canSlowDown();
-                    currentSpeed = currentSpeed.slowDown();
-                }
-
             if (command.charAt(i) == 'r') {
-                currentDirection.canTurn(sonda);
+                sondaState.canTurn(currentDirection);
                 currentDirection = currentDirection.turnRight();
             }
             if (command.charAt(i) == 'l') {
-                currentDirection.canTurn(sonda);
+                sondaState.canTurn(currentDirection);
                 currentDirection = currentDirection.turnLeft();
+            }
+
+            if (command.charAt(i) == 'i') {
+                currentSpeed = currentSpeed.speedUp();
+            }
+            if (command.charAt(i) == 's') {
+                currentSpeed.canSlowDown();
+                currentSpeed = currentSpeed.slowDown();
             }
 
             if (command.charAt(i) == 'd') {
                 currentSpeed.canDeploySonda();
-                sonda = true;
+                sondaState = new SondaDeployed();
             }
             if (command.charAt(i) == 'f') {
-                sonda = false;
+                sondaState = new SondaNotDeployed();
             }
         }
     }
-
-
-
-
-
 
 
     public int currentSpeed() {
@@ -130,9 +128,8 @@ public class Axiom {
     }
 
     public boolean currentSonda() {
-        return sonda;
+        return sondaState.isDeployed();
     }
-
 
 
 }

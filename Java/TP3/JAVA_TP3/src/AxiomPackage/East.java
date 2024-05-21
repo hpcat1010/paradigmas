@@ -17,11 +17,7 @@ public class East extends Direccions {
         return "East";
     }
 
-    public void canTurn(boolean sonda) {
-        if (sonda){
-            throw new RuntimeException(Axiom.ErrorSonda);
-        }
-        }
+
 
 
 

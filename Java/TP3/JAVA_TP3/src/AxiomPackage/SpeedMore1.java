@@ -1,19 +1,19 @@
 package AxiomPackage;
 
-public class SpeedMore1 extends Velocity{
-    private final Velocity previous;
+public class SpeedMore1 extends VelocityPilot {
+    private final VelocityPilot previous;
     private final int speed;
 
-    public SpeedMore1(Velocity previous, int speed) {
+    public SpeedMore1(VelocityPilot previous, int speed) {
         this.previous = previous;
         this.speed = speed;
     }
 
-    public Velocity speedUp() {
+    public VelocityPilot speedUp() {
         return new SpeedMore1(previous, speed + 1);
     }
 
-    public Velocity slowDown() {
+    public VelocityPilot slowDown() {
         return previous;
     }
 

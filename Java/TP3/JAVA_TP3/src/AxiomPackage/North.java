@@ -17,9 +17,5 @@ public class North extends Direccions {
     }
 
 
-    public void canTurn(boolean sonda) {
-        if (sonda){
-            throw new RuntimeException(Axiom.ErrorSonda);
-        }
-    }
+
 }
