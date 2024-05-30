@@ -2,22 +2,23 @@ package uno;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 
 public class UnoGame {
     private List deck = new ArrayList();
     public static List<Object> discardPile = new ArrayList<>();
     public List<Player> players = new ArrayList();
-    public Object topCard;
+    public static Object topCard;
     public String direction;
     private int currentPlayer = 0;
 
-    public void initializeGame(Player... players) {
+    public void initializeGame(Player... aPlayer) {
         deck.clear();
         for (int i = 0; i < 104; i++) {
             deck.add(new Object());
         }
         this.players.clear();
-        for (Player player : players) {
+        for (Player player : aPlayer) {
             addPlayer(player);
         }
         direction = "clockwise";
@@ -55,6 +56,6 @@ public class UnoGame {
     public void playCard(Object card) {
         players.get(currentPlayer).playPlayerCard(card);
         currentPlayer = (currentPlayer + 1) % players.size();
-        topCard = this;
+        topCard = card;
     }
 }

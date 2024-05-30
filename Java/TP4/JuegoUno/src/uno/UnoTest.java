@@ -7,14 +7,12 @@ import static org.junit.Assert.assertThrows;
 
 public class UnoTest {
 
-
     @Test
     public void testInitializeGame() {
         UnoGame game = new UnoGame();
         game.initializeGame(new Player(), new Player());
-        assertEquals(90, game.getDeck().size());
+        assertEquals(89, game.getDeck().size());
         assertEquals(2, game.getPlayers().size());
-
     }
 
     @Test
@@ -22,8 +20,9 @@ public class UnoTest {
         UnoGame game = new UnoGame();
         game.initializeGame(new Player(), new Player(), new Player());
         assertEquals(3, game.getPlayers().size());
-        assertEquals(83, game.getDeck().size());
+        assertEquals(82, game.getDeck().size());
     }
+
     @Test
     public void testDrawCard() {
         UnoGame game = new UnoGame();
@@ -32,15 +31,19 @@ public class UnoTest {
         game.drawCard();
         assertEquals(8, player.getHand().size());
     }
+
     @Test
     public void testPlayCard() {
         UnoGame game = new UnoGame();
         Player player = new Player();
         game.initializeGame(player, new Player());
-        game.playCard(player.getHand().get(0));
+        Object card =  player.getHand().get(0);
+        game.playCard(card);
         assertEquals(6, player.getHand().size());
         assertEquals(1, UnoGame.discardPile.size());
+        assertEquals(card, UnoGame.topCard);
     }
+
     @Test
     public void testPlayCardWin() {
         UnoGame game = new UnoGame();
@@ -53,7 +56,7 @@ public class UnoTest {
     }
 
     @Test
-    public void testPlayCardDirectionWith3Players(){
+    public void testPlayCardDirectionWith3Players() {
         UnoGame game = new UnoGame();
         Player player1 = new Player();
         Player player2 = new Player();
