@@ -4,38 +4,43 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UnoGame {
-    Card R2 = new Card("Red",2);
-    Card B4 = new Card("Blue",4);
-    Card Y8 = new Card("Yellow",8);
-    Card R4 = new Card("Red",4);
-    Card B6 = new Card("Blue",6);
-    Card Y1 = new Card("Yellow",1);
-    Card G2 = new Card("Green",2);
-    Card G4 = new Card("Green",4);
-    Card R1 = new Card("Red",1);
-    Card R3 = new Card("Red",3);
-    Card R9 = new Card("Red",9);
-    Card Y7 = new Card("Yellow",7);
-    public static List mazo = new ArrayList(R2,B4,Y8,R4,B6,Y1,G2,G4,R1,R3,R9,Y7);
-    private List deck = new ArrayList();
+
+    private static List deck = new ArrayList();
     public static List<Object> discardPile = new ArrayList<>();
 
-    public List<Card> player1Hand = new ArrayList<>();
-    public List<Card> player2Hand = new ArrayList<>();
-    public static Object topCard;
+    public static List<Card> player1Hand = new ArrayList<>();
+    public static List<Card> player2Hand = new ArrayList<>();
+    public static List<Character> players = new ArrayList<>();
+    public static Card topCard;
     public String direction;
-    private int currentPlayer = 0;
+    public static int currentPlayer = 0;
 
-    public UnoGame(List mazo,Character... aPlayer) {
+    public UnoGame(List mazo, Character aPlayer1, Character aPlayer2) {
+        deck.clear();
+        discardPile.clear();
+        player1Hand.clear();
+        player2Hand.clear();
+        players.clear();
+        topCard = null;
+        direction = null;
+        currentPlayer = 0;
+
         deck = mazo;
-        if (aPlayer.length < 2) {
-            throw new RuntimeException("At least two players are required to start the game.");
-        }
-
-        topCard = deck.remove(0);
+        topCard = (Card) deck.remove(0);
         direction = "clockwise";
+        addPlayer(aPlayer1);
+
+        addPlayer(aPlayer2);
 
 
+        drawCardS(aPlayer1, 5);
+        drawCardS(aPlayer2, 5);
+
+
+    }
+
+    public static void nextPlayer() {
+        currentPlayer = (currentPlayer + 1) % players.size();
     }
 
 
@@ -48,23 +53,51 @@ public class UnoGame {
     }
 
     public void addPlayer(char player) {
-        if (players.size() == 14) {
-            throw new RuntimeException("Too many players");
+        players.add(player);
 
 
     }
 
-    public Player getCurrentPlayer() {
+    public static char getCurrentPlayer() {
         return players.get(currentPlayer);
+
     }
 
-    public void drawCard() {
-        players.get(currentPlayer).drawCard(deck.remove(0));
+    public static void drawCardS(char player, int numberCards) {
+        if (player != players.get(currentPlayer)) {
+            throw new RuntimeException("Not your turn");
+        }
+        if (deck.isEmpty()) {
+            deck = discardPile;
+            discardPile.clear();
+        }
+        if (player == players.get(0)) {
+            for (int i = 0; i < numberCards; i++) {
+                player1Hand.add((Card) deck.remove(0));
+            }
+
+        } else {
+            for (int i = 0; i < numberCards; i++) {
+                player2Hand.add((Card) deck.remove(0));
+            }
+
+        }
+
+        nextPlayer();
     }
 
-    public void playCard(Object card) {
-        players.get(currentPlayer).playPlayerCard(card);
-        currentPlayer = (currentPlayer + 1) % players.size();
+    public void playCard(char player, Card card) {
+
+        if (player != players.get(currentPlayer)) {
+            throw new RuntimeException("Not your turn");
+        }
+        if (card.getColor() != topCard.getColor() && card.getValue() != topCard.getValue()) {
+            throw new RuntimeException("Invalid card");
+        }
+
+        nextPlayer();
+        card.effect();
         topCard = card;
+
     }
 }
