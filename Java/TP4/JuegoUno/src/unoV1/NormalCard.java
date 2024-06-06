@@ -26,7 +26,7 @@ public class NormalCard extends Card{
 
     @Override
     public Card playMeAs(String red) {
-        return null;
+      return this;
     }
 
 }

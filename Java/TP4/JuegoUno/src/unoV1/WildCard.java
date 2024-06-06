@@ -1,14 +1,11 @@
 package unoV1;
 
-
-import java.util.List;
-
-public class SpecialCard extends Card{
+public class WildCard extends SpecialCard{
     private String color;
     private String value;
-
-
-    public  SpecialCard(String aColor, String aValue) {
+    private String newColor;
+    public WildCard(String aColor, String aValue) {
+        super(aColor, aValue);
         color = aColor;
         value = aValue;
     }
@@ -22,18 +19,13 @@ public class SpecialCard extends Card{
     }
 
     public void effect(){
-        if (value.equals("Plus 2")){
-            UnoGame.drawCardS(UnoGame.getCurrentPlayer(),2);
+        UnoGame.topCard = new SpecialCard(newColor, value);
 
-        }
-        if (value.equals("Skip") || value.equals("Reverse")){
-            UnoGame.nextPlayer(UnoGame.direction);
-        }
 
     }
-
-
     public Card playMeAs(String color) {
+        newColor = color;
         return this;
     }
+
 }

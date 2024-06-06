@@ -1,33 +1,30 @@
 package unoV1;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UnoGame {
-
     private static List deck = new ArrayList();
-    public static List<Object> discardPile = new ArrayList<>();
-
-    public static List<Card> player1Hand = new ArrayList<>();
-    public static List<Card> player2Hand = new ArrayList<>();
+    public static List<Card> discardPile = new ArrayList<>();
+    public static Map<Character, List<Card>> playerHands = new HashMap<>();
     public static List<Character> players = new ArrayList<>();
     public static Card topCard;
-    public String direction;
+    public static int direction;
     public static int currentPlayer = 0;
 
     public UnoGame(List mazo, Character aPlayer1, Character aPlayer2) {
         deck.clear();
         discardPile.clear();
-        player1Hand.clear();
-        player2Hand.clear();
+        playerHands.clear();
         players.clear();
         topCard = null;
-        direction = null;
         currentPlayer = 0;
 
         deck = mazo;
         topCard = (Card) deck.remove(0);
-        direction = "clockwise";
+        direction = 1;
         addPlayer(aPlayer1);
 
         addPlayer(aPlayer2);
@@ -39,8 +36,8 @@ public class UnoGame {
 
     }
 
-    public static void nextPlayer() {
-        currentPlayer = (currentPlayer + 1) % players.size();
+    public static void nextPlayer(int direction) {
+        currentPlayer = (currentPlayer + direction) % players.size();
     }
 
 
@@ -54,7 +51,7 @@ public class UnoGame {
 
     public void addPlayer(char player) {
         players.add(player);
-
+        playerHands.put(player, new ArrayList<>());
 
     }
 
@@ -70,34 +67,36 @@ public class UnoGame {
         if (deck.isEmpty()) {
             deck = discardPile;
             discardPile.clear();
+        } for (int i = 0; i < numberCards; i++) {
+            playerHands.get(player).add((Card) deck.remove(0));
         }
-        if (player == players.get(0)) {
-            for (int i = 0; i < numberCards; i++) {
-                player1Hand.add((Card) deck.remove(0));
-            }
-
-        } else {
-            for (int i = 0; i < numberCards; i++) {
-                player2Hand.add((Card) deck.remove(0));
-            }
-
-        }
-
-        nextPlayer();
+        nextPlayer(direction);
     }
 
     public void playCard(char player, Card card) {
-
+        List<Card> playerHand = playerHands.get(player);
+        if (!playerHand.contains(card)) {
+            throw new RuntimeException("Card not in hand");
+        }
         if (player != players.get(currentPlayer)) {
             throw new RuntimeException("Not your turn");
         }
-        if (card.getColor() != topCard.getColor() && card.getValue() != topCard.getValue()) {
-            throw new RuntimeException("Invalid card");
+        if (card.getValue() != "Wild") {
+            if (topCard.getValue().equals("Wild")) {
+                if (card.getColor() != topCard.getColor()) {
+                    throw new RuntimeException("Invalid card 1");
+                }
+            } else {
+                if (card.getColor() != topCard.getColor() && !card.getValue().equals(topCard.getValue())) {
+                    throw new RuntimeException("Invalid card 2");
+                }
+            }
         }
-
-        nextPlayer();
-        card.effect();
+        nextPlayer(direction);
+        discardPile.add(card);
+        playerHand.remove(card);
         topCard = card;
-
+        card.effect();
     }
+
 }
