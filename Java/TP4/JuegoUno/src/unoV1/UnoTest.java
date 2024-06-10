@@ -16,7 +16,6 @@ public class UnoTest {
     static Card B4 = new NormalCard("Blue", 4);
     static Card Y8 = new NormalCard("Yellow", 8);
     static Card R4 = new NormalCard("Red", 4);
-    static Card B6 = new NormalCard("Blue", 6);
     static Card Y1 = new NormalCard("Yellow", 1);
     static Card G2 = new NormalCard("Green", 2);
     static Card G4 = new NormalCard("Green", 4);
@@ -24,10 +23,10 @@ public class UnoTest {
     static Card R3 = new NormalCard("Red", 3);
     static Card R9 = new NormalCard("Red", 9);
     static Card Y7 = new NormalCard("Yellow", 7);
-    static Card RP2 = new SpecialCard("Red", "Plus 2");
-    static Card BP2 = new SpecialCard("Blue", "Plus 2");
-    static Card RS = new SpecialCard("Red", "Skip");
-    static Card RREV = new SpecialCard("Red", "Reverse");
+    static Card RP2 = new Plus2Card("Red", "Plus 2");
+    static Card BP2 = new Plus2Card("Blue", "Plus 2");
+    static Card RS = new SkipCard("Red", "Skip");
+    static Card RREV = new ReverseCard("Red", "Reverse");
     static Card WILD = new WildCard("Wild", "Wild");
 
     @Before
@@ -35,11 +34,14 @@ public class UnoTest {
         mazo = new ArrayList<>(Arrays.asList(R2, B4, Y8, G2, R4, Y1, G2, G4, R1, R3, R9, Y7,RP2,RS,R2,R2,R2,RREV));
         specialMazo1 = new ArrayList<>(Arrays.asList(R2, RREV, RP2, BP2, RS, Y1, G2, G4, R1, R3, R9, Y7,RP2,RS,R2,R2,R2,RREV));
         specialMazo2 = new ArrayList<>(Arrays.asList(R2, WILD, RREV, BP2, RS, Y1, G2, B4, R1, R3, R9, Y7,RP2,RS,R2,R2,R2,RREV));
+        mazoSkip = new ArrayList<>(Arrays.asList(R2, RS, RS, RS, RS, RS, RS, G4, R1, R3, R9, Y7,RP2,RS,R2,R2,R2,RREV));
 
     }
     private static List<Card> mazo = new ArrayList<>();
     private static List<Card> specialMazo1 = new ArrayList<>();
     private static List<Card> specialMazo2 = new ArrayList<>();
+
+    private static List<Card> mazoSkip = new ArrayList<>();
 
     @Test
     public void testTopCardRojo2() {
@@ -146,5 +148,15 @@ public class UnoTest {
         game.playCard('A', WILD.playMeAs("Blue"));
         game.playCard('B',B4);
         assertEquals(B4, game.topCard);
+    }
+    @Test
+    public void testPlayerAWins() {
+        UnoGame game = new UnoGame(mazoSkip, 'A', 'B');
+        game.playCard('A', RS);
+        game.playCard('A', RS);
+        game.playCard('A', RS);
+        game.playCard('A', RS);
+        game.playCard('A', RS);
+        assertEquals('A', game.getWinner());
     }
 }

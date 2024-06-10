@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 public class UnoGame {
     private static List deck = new ArrayList();
@@ -15,12 +16,8 @@ public class UnoGame {
     public static int currentPlayer = 0;
 
     public UnoGame(List mazo, Character aPlayer1, Character aPlayer2) {
-        deck.clear();
-        discardPile.clear();
-        playerHands.clear();
-        players.clear();
-        topCard = null;
-        currentPlayer = 0;
+        clearGame();
+
 
         deck = mazo;
         topCard = (Card) deck.remove(0);
@@ -36,10 +33,30 @@ public class UnoGame {
 
     }
 
+
+    private void clearGame() {
+        deck.clear();
+        discardPile.clear();
+        playerHands.clear();
+        players.clear();
+        topCard = null;
+        currentPlayer = 0;
+    }
+
     public static void nextPlayer(int direction) {
         currentPlayer = (currentPlayer + direction) % players.size();
     }
 
+    public static void changeDirection() {
+        direction = -direction;
+    }
+
+    public char getWinner() {
+        return players.stream()
+                .filter(player -> playerHands.get(player).isEmpty())
+                .findFirst()
+                .orElse((char) 0);
+    }
 
     public List getDeck() {
         return deck;
@@ -60,43 +77,51 @@ public class UnoGame {
 
     }
 
-    public static void drawCardS(char player, int numberCards) {
+    public static void isMyTurn(char player) {
         if (player != players.get(currentPlayer)) {
             throw new RuntimeException("Not your turn");
         }
+    }
+
+    public static void drawCardS(char player, int numberCards) {
+        isMyTurn(player);
         if (deck.isEmpty()) {
             deck = discardPile;
             discardPile.clear();
-        } for (int i = 0; i < numberCards; i++) {
-            playerHands.get(player).add((Card) deck.remove(0));
         }
+        List<Card> drawnCards = IntStream.range(0, numberCards)
+                .mapToObj(i -> (Card) deck.remove(0))
+                .toList();
+        playerHands.get(player).addAll(drawnCards);
         nextPlayer(direction);
     }
 
-    public void playCard(char player, Card card) {
-        List<Card> playerHand = playerHands.get(player);
-        if (!playerHand.contains(card)) {
+    public void playCard(char player, Card aCard) {
+        doesPlayerHaveCard(player, aCard);
+        isMyTurn(player);
+
+        canThisCardBePlayed(aCard);
+        nextPlayer(direction);
+        discardPile.add(aCard);
+        playerHands.get(player).remove(aCard);
+        topCard = aCard;
+        aCard.effect();
+    }
+
+
+
+    private void canThisCardBePlayed(Card aCard) {
+        aCard.amIWild();
+    }
+
+    public static void doesPlayerHaveCard(char player, Card card) {
+        if (!playerHands.get(player).contains(card)) {
             throw new RuntimeException("Card not in hand");
         }
-        if (player != players.get(currentPlayer)) {
-            throw new RuntimeException("Not your turn");
-        }
-        if (card.getValue() != "Wild") {
-            if (topCard.getValue().equals("Wild")) {
-                if (card.getColor() != topCard.getColor()) {
-                    throw new RuntimeException("Invalid card 1");
-                }
-            } else {
-                if (card.getColor() != topCard.getColor() && !card.getValue().equals(topCard.getValue())) {
-                    throw new RuntimeException("Invalid card 2");
-                }
-            }
-        }
-        nextPlayer(direction);
-        discardPile.add(card);
-        playerHand.remove(card);
-        topCard = card;
-        card.effect();
+    }
+
+    public static void canIPlayCard(Card card) {
+        card.canBePLayedOnTopOf(topCard);
     }
 
 }

@@ -19,13 +19,18 @@ public class WildCard extends SpecialCard{
     }
 
     public void effect(){
-        UnoGame.topCard = new SpecialCard(newColor, value);
+        UnoGame.topCard = new WildCard(newColor, value);
 
 
     }
     public Card playMeAs(String color) {
         newColor = color;
         return this;
+    }
+
+
+    public void amIWild() {
+
     }
 
 }

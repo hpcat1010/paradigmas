@@ -29,4 +29,10 @@ public class NormalCard extends Card{
       return this;
     }
 
+    @Override
+    public void amIWild() {
+        UnoGame.canIPlayCard(this);
+    }
+
+
 }

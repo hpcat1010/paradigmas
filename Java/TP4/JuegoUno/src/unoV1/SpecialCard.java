@@ -3,7 +3,7 @@ package unoV1;
 
 import java.util.List;
 
-public class SpecialCard extends Card{
+public abstract class SpecialCard extends Card{
     private String color;
     private String value;
 
@@ -21,19 +21,10 @@ public class SpecialCard extends Card{
         return value;
     }
 
-    public void effect(){
-        if (value.equals("Plus 2")){
-            UnoGame.drawCardS(UnoGame.getCurrentPlayer(),2);
-
-        }
-        if (value.equals("Skip") || value.equals("Reverse")){
-            UnoGame.nextPlayer(UnoGame.direction);
-        }
-
-    }
+    public abstract void effect();
 
 
-    public Card playMeAs(String color) {
-        return this;
-    }
+    public abstract Card playMeAs(String color);
+
+    public abstract void amIWild();
 }
