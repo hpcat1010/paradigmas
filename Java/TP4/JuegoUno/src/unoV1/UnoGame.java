@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.stream.IntStream;
 
 public class UnoGame {
-    private static List deck = new ArrayList();
+    public static List deck = new ArrayList();
     public static List<Card> discardPile = new ArrayList<>();
     public static Map<Character, List<Card>> playerHands = new HashMap<>();
     public static List<Character> players = new ArrayList<>();
@@ -88,6 +88,7 @@ public class UnoGame {
         if (deck.isEmpty()) {
             deck = discardPile;
             discardPile.clear();
+            discardPile.add(topCard);
         }
         List<Card> drawnCards = IntStream.range(0, numberCards)
                 .mapToObj(i -> (Card) deck.remove(0))
@@ -102,7 +103,7 @@ public class UnoGame {
 
         canThisCardBePlayed(aCard);
         nextPlayer(direction);
-        discardPile.add(aCard);
+        discardPile.add(topCard);
         playerHands.get(player).remove(aCard);
         topCard = aCard;
         aCard.effect();
