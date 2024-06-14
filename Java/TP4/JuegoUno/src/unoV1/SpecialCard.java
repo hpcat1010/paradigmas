@@ -21,10 +21,10 @@ public abstract class SpecialCard extends Card{
         return value;
     }
 
-    public abstract void effect();
+    public abstract void effect(UnoGame aGame);
 
 
     public abstract Card playMeAs(String color);
 
-    public abstract void amIWild();
+    public abstract void canBePLayedOnTopOf(Card aTopCard);
 }

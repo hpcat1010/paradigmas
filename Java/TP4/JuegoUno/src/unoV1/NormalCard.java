@@ -20,7 +20,7 @@ public class NormalCard extends Card{
     }
 
 
-    public void effect() {
+    public void effect(UnoGame aGame) {
 
     }
 
@@ -29,9 +29,12 @@ public class NormalCard extends Card{
       return this;
     }
 
+
     @Override
-    public void amIWild() {
-        UnoGame.canIPlayCard(this);
+    public void canBePLayedOnTopOf(Card aTopCard) {
+        if (aTopCard.getValue() != this.getValue() && !aTopCard.getColor().equals(this.getColor())) {
+            throw new RuntimeException("Can't play that card");
+        }
     }
 
 

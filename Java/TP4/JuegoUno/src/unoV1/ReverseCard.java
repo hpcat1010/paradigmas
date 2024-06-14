@@ -6,9 +6,8 @@ public class ReverseCard extends SpecialCard{
     }
 
 
-    public void effect() {
-        UnoGame.changeDirection();
-        UnoGame.nextPlayer(UnoGame.direction);
+    public void effect(UnoGame aGame) {
+        aGame.nextPlayer(aGame.direction);
 
     }
 
@@ -17,9 +16,13 @@ public class ReverseCard extends SpecialCard{
         return null;
     }
 
+
+
     @Override
-    public void amIWild() {
-        UnoGame.canIPlayCard(this);
+    public void canBePLayedOnTopOf(Card aTopCard) {
+        if (aTopCard.getValue() != this.getValue() && !aTopCard.getColor().equals(this.getColor())) {
+            throw new RuntimeException("Can't play that card");
+        }
 
     }
 

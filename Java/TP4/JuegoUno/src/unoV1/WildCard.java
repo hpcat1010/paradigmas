@@ -18,8 +18,8 @@ public class WildCard extends SpecialCard{
         return value;
     }
 
-    public void effect(){
-        UnoGame.topCard = new WildCard(newColor, value);
+    public void effect(UnoGame aGame){
+        aGame.topCard = new WildCard(newColor, value);
 
 
     }
@@ -29,7 +29,8 @@ public class WildCard extends SpecialCard{
     }
 
 
-    public void amIWild() {
+    @Override
+    public void canBePLayedOnTopOf(Card aTopCard) {
 
     }
 

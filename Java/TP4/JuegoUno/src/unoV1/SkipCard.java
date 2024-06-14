@@ -4,8 +4,8 @@ public class SkipCard extends SpecialCard{
     public SkipCard(String aColor, String aValue) {
         super(aColor,aValue);
     }
-    public void effect(){
-        UnoGame.nextPlayer(UnoGame.direction);
+    public void effect(UnoGame aGame){
+        aGame.nextPlayer(aGame.direction);
     }
 
     @Override
@@ -13,9 +13,15 @@ public class SkipCard extends SpecialCard{
         return null;
     }
 
-    @Override
-    public void amIWild() {
-        UnoGame.canIPlayCard(this);
 
+
+    @Override
+    public void canBePLayedOnTopOf(Card aTopCard) {
+        if (aTopCard.getValue() != this.getValue() && !aTopCard.getColor().equals(this.getColor())) {
+            throw new RuntimeException("Can't play that card");
+        }
     }
+
+
+
 }

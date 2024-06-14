@@ -4,8 +4,9 @@ public class Plus2Card extends SpecialCard{
     public Plus2Card(String aColor, String aValue) {
         super(aColor, aValue);
     }
-    public void effect(){
-        UnoGame.drawCardS(UnoGame.getCurrentPlayer(),2);
+    public void effect(UnoGame aGame){
+        aGame.drawCardS(aGame.getCurrentPlayer(),new NormalCard("Blue",7),new NormalCard("Blue",8));
+        aGame.nextPlayer(aGame.direction);
     }
 
     @Override
@@ -13,9 +14,11 @@ public class Plus2Card extends SpecialCard{
         return null;
     }
 
-    @Override
-    public void amIWild() {
-        UnoGame.canIPlayCard(this);
 
+    @Override
+    public void canBePLayedOnTopOf(Card aTopCard) {
+        if (aTopCard.getValue() != this.getValue() && !aTopCard.getColor().equals(this.getColor())) {
+            throw new RuntimeException("Can't play that card");
+        }
     }
 }

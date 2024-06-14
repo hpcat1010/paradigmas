@@ -1,55 +1,30 @@
 package unoV1;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.IntStream;
 
 public class UnoGame {
-    public static List deck = new ArrayList();
-    public static List<Card> discardPile = new ArrayList<>();
-    public static Map<Character, List<Card>> playerHands = new HashMap<>();
-    public static List<Character> players = new ArrayList<>();
-    public static Card topCard;
-    public static int direction;
-    public static int currentPlayer = 0;
+    public Map<Character, List<Card>> playerHands = new HashMap<>();
+    public List<Character> players = new ArrayList<>();
+    public Card topCard = new NormalCard("Red", 2);
+    public int direction = 1;
+    public int currentPlayer = 0;
+    public char lastPlayer;
 
-    public UnoGame(List mazo, Character aPlayer1, Character aPlayer2) {
-        clearGame();
+    public boolean oneCardLeft = false;
 
-
-        deck = mazo;
-        topCard = (Card) deck.remove(0);
-        direction = 1;
+    public UnoGame(Character aPlayer1, Character aPlayer2) {
         addPlayer(aPlayer1);
-
         addPlayer(aPlayer2);
 
 
-        drawCardS(aPlayer1, 5);
-        drawCardS(aPlayer2, 5);
-
-
     }
 
 
-    private void clearGame() {
-        deck.clear();
-        discardPile.clear();
-        playerHands.clear();
-        players.clear();
-        topCard = null;
-        currentPlayer = 0;
-    }
-
-    public static void nextPlayer(int direction) {
+    public void nextPlayer(int direction) {
         currentPlayer = (currentPlayer + direction) % players.size();
     }
 
-    public static void changeDirection() {
-        direction = -direction;
-    }
 
     public char getWinner() {
         return players.stream()
@@ -58,13 +33,6 @@ public class UnoGame {
                 .orElse((char) 0);
     }
 
-    public List getDeck() {
-        return deck;
-    }
-
-    public List getPlayers() {
-        return players;
-    }
 
     public void addPlayer(char player) {
         players.add(player);
@@ -72,57 +40,62 @@ public class UnoGame {
 
     }
 
-    public static char getCurrentPlayer() {
+    public char getCurrentPlayer() {
         return players.get(currentPlayer);
 
     }
 
-    public static void isMyTurn(char player) {
+    public void isMyTurn(char player) {
         if (player != players.get(currentPlayer)) {
             throw new RuntimeException("Not your turn");
         }
     }
 
-    public static void drawCardS(char player, int numberCards) {
+    public void drawCardS(char player, Card... aCard) {
         isMyTurn(player);
-        if (deck.isEmpty()) {
-            deck = discardPile;
-            discardPile.clear();
-            discardPile.add(topCard);
-        }
-        List<Card> drawnCards = IntStream.range(0, numberCards)
-                .mapToObj(i -> (Card) deck.remove(0))
-                .toList();
-        playerHands.get(player).addAll(drawnCards);
-        nextPlayer(direction);
+        List<Card> playerHand = playerHands.get(player);
+        playerHand.addAll(Arrays.asList(aCard));
+
+
     }
 
     public void playCard(char player, Card aCard) {
         doesPlayerHaveCard(player, aCard);
         isMyTurn(player);
-
-        canThisCardBePlayed(aCard);
+        canIPlayCard(aCard);
         nextPlayer(direction);
-        discardPile.add(topCard);
         playerHands.get(player).remove(aCard);
         topCard = aCard;
-        aCard.effect();
+        lastPlayer = player;
+        aCard.effect(this);
     }
 
 
-
-    private void canThisCardBePlayed(Card aCard) {
-        aCard.amIWild();
-    }
-
-    public static void doesPlayerHaveCard(char player, Card card) {
+    public void doesPlayerHaveCard(char player, Card card) {
         if (!playerHands.get(player).contains(card)) {
             throw new RuntimeException("Card not in hand");
         }
     }
 
-    public static void canIPlayCard(Card card) {
+    public void canIPlayCard(Card card) {
         card.canBePLayedOnTopOf(topCard);
     }
 
+    public void shoutUno(char aPlayer) {
+        if (lastPlayer == aPlayer) {
+            oneCardLeft = true;
+        } else {
+            playerHands.get(lastPlayer).add(new NormalCard("Blue", 7));
+            playerHands.get(lastPlayer).add(new NormalCard("Blue", 8));
+
+        }
+    }
+
+    public void methodPlayCard(char b, Card aCard) {
+        //todo
+    }
+
+    public void methodDrawCardS(char a, int numberCards) {
+        //todo
+    }
 }
