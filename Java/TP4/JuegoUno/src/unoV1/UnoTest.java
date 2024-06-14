@@ -11,10 +11,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static unoV1.GameStatus.NotYourTurn;
-
+import static unoV1.FinishedStatus.GameOver;
 public class UnoTest {
     private Card Red2;
     private Card Blue4;
@@ -306,11 +305,28 @@ public class UnoTest {
         assertEquals(3, game.playerHands.get('A').size());
     }
 
+
     @Test
     public void testPlayCardAfterGameEnd() {
-
+        UnoGame game = new UnoGame( 'A', 'B');
+        game.playerHands.put('A', newHand);
+        game.playerHands.put('B', playerBHand);
+        game.playCard('A', RedSkip);
+        game.shoutUno('A');
+        assertTrue(game.oneCardLeft);
+        game.playCard('A', Red4);
+        assertEquals('A', game.getWinner());
+        assertThrowsLike(GameOver, () -> game.playCard('B', Red4));
     }
 
+    @Test
+    public void testNoWinner() {
+        UnoGame game = new UnoGame( 'A', 'B');
+        game.playerHands.put('A', newHand);
+        game.playerHands.put('B', playerBHand);
+        assertNotEquals('A', game.getWinner());
+        assertNotEquals('B', game.getWinner());
+    }
 
     private void assertThrowsLike(String message, Executable codeBlock) {
         Assertions.assertEquals(message, Assertions.assertThrows(Throwable.class, codeBlock).getMessage());

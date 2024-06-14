@@ -27,6 +27,7 @@ public class UnoGame {
     public char getWinner() {
         return players.stream()
                 .filter(player -> playerHands.get(player).isEmpty())
+                .peek(player -> estado = new FinishedStatus())
                 .findFirst()
                 .orElse((char) 0);
     }
