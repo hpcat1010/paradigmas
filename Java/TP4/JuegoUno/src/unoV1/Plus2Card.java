@@ -1,12 +1,17 @@
 package unoV1;
 
+import java.util.List;
+
+
+
 public class Plus2Card extends SpecialCard{
     public Plus2Card(String aColor, String aValue) {
         super(aColor, aValue);
     }
     public void effect(UnoGame aGame){
-        aGame.drawCardS(aGame.getCurrentPlayer(),new NormalCard("Blue",7),new NormalCard("Blue",8));
-        aGame.nextPlayer(aGame.direction);
+        aGame.playerHands.get(aGame.getCurrentPlayer()).add(new NormalCard("Blue", 7));
+        aGame.playerHands.get(aGame.getCurrentPlayer()).add(new NormalCard("Blue", 8));
+        aGame.nextPlayer();
     }
 
     @Override

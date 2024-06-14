@@ -1,16 +1,13 @@
 package unoV1;
 
 import java.util.*;
-import java.util.stream.IntStream;
 
 public class UnoGame {
     public Map<Character, List<Card>> playerHands = new HashMap<>();
     public List<Character> players = new ArrayList<>();
     public Card topCard = new NormalCard("Red", 2);
-    public int direction = 1;
-    public int currentPlayer = 0;
     public char lastPlayer;
-
+    public GameStatus estado = new Player1Turn(this);
     public boolean oneCardLeft = false;
 
     public UnoGame(Character aPlayer1, Character aPlayer2) {
@@ -21,8 +18,9 @@ public class UnoGame {
     }
 
 
-    public void nextPlayer(int direction) {
-        currentPlayer = (currentPlayer + direction) % players.size();
+    public void nextPlayer() {
+//        currentPlayer = (currentPlayer + direction) % players.size();
+        estado = estado.nextTurn();
     }
 
 
@@ -41,33 +39,22 @@ public class UnoGame {
     }
 
     public char getCurrentPlayer() {
-        return players.get(currentPlayer);
+//        return players.get(currentPlayer);
+        return estado.getCurrentPlayer();
 
     }
 
-    public void isMyTurn(char player) {
-        if (player != players.get(currentPlayer)) {
-            throw new RuntimeException("Not your turn");
-        }
-    }
 
-    public void drawCardS(char player, Card... aCard) {
-        isMyTurn(player);
-        List<Card> playerHand = playerHands.get(player);
-        playerHand.addAll(Arrays.asList(aCard));
-
+    public void drawCard(char player, Card aCard) {
+        estado.drawCard(player, aCard);
 
     }
 
     public void playCard(char player, Card aCard) {
         doesPlayerHaveCard(player, aCard);
-        isMyTurn(player);
         canIPlayCard(aCard);
-        nextPlayer(direction);
-        playerHands.get(player).remove(aCard);
-        topCard = aCard;
-        lastPlayer = player;
-        aCard.effect(this);
+        estado.playCard(player, aCard);
+
     }
 
 
@@ -91,11 +78,14 @@ public class UnoGame {
         }
     }
 
-    public void methodPlayCard(char b, Card aCard) {
-        //todo
+    public void methodPlayCard(char aPlayer, Card aCard) {
+        topCard = aCard;
+        playerHands.get(aPlayer).remove(aCard);
+        lastPlayer = aPlayer;
+        nextPlayer();
+        aCard.effect(this);
+
     }
 
-    public void methodDrawCardS(char a, int numberCards) {
-        //todo
-    }
+
 }

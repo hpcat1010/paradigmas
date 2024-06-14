@@ -3,18 +3,32 @@ package unoV1;
 class Player1Turn extends GameStatus {
     private UnoGame game;
 
-
     public Player1Turn(UnoGame game) {
         this.game = game;
     }
+    @Override
+    public void drawCard(char player, Card aCard) {
+        if (player == 'A') {
+            drawCardsAsPlayer1(aCard);
+        } else {
+            drawCardsAsPlayer2(aCard);
 
+        }
+    }
+    public void drawCardsAsPlayer1(Card aCard) {
+        game.playerHands.get('A').add(aCard);
+        game.nextPlayer();
+    }
     public void PlayCardsAsPlayer1(Card aCard) {
         game.methodPlayCard('A', aCard);
     }
 
-    @Override
-    public void playCard(Card aCard) {
-        PlayCardsAsPlayer1(aCard);
+    public void playCard(char aPlayer, Card aCard) {
+        if (aPlayer == 'A')
+            PlayCardsAsPlayer1(aCard);
+        else
+            PlayCardsAsPlayer2(aCard);
+
     }
 
     public GameStatus nextTurn() {
@@ -26,12 +40,6 @@ class Player1Turn extends GameStatus {
         return 'A';
     }
 
-    @Override
-    public void drawCards(char player, int numberCards) {
-        drawCardsAsPlayer1(player, numberCards);
-    }
 
-    public void drawCardsAsPlayer1(char player, int numberCards) {
-        game.methodDrawCardS('A', numberCards);
-    }
+
 }

@@ -7,7 +7,7 @@ public class ReverseCard extends SpecialCard{
 
 
     public void effect(UnoGame aGame) {
-        aGame.nextPlayer(aGame.direction);
+        aGame.nextPlayer();
 
     }
 

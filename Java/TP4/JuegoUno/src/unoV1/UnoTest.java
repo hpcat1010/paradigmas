@@ -13,6 +13,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static unoV1.GameStatus.NotYourTurn;
 
 public class UnoTest {
     private Card Red2;
@@ -103,7 +104,7 @@ public class UnoTest {
         UnoGame game = new UnoGame( 'A', 'B');
         game.playerHands.put('A',playerAHand );
         game.playerHands.put('B', playerBHand);
-        game.drawCardS('A', Red9);
+        game.drawCard('A', Red9);
         assertEquals(6, game.playerHands.get('A').size());
     }
 
@@ -112,7 +113,7 @@ public class UnoTest {
         UnoGame game = new UnoGame( 'A', 'B');
         game.playerHands.put('A',playerAHand );
         game.playerHands.put('B', playerBHand);
-        assertThrowsLike("Not your turn", () -> game.playCard('B', Red4));
+        assertThrowsLike(NotYourTurn, () -> game.playCard('B', Red4));
     }
 
     @Test
@@ -121,7 +122,7 @@ public class UnoTest {
         game.playerHands.put('A',playerAHand );
         game.playerHands.put('B', playerBHand);
         game.playCard('A', Red4);
-        assertThrowsLike("Not your turn", () -> game.playCard('A', Blue4));
+        assertThrowsLike(NotYourTurn, () -> game.playCard('A', Blue4));
     }
 
     @Test
@@ -129,7 +130,15 @@ public class UnoTest {
         UnoGame game = new UnoGame( 'A', 'B');
         game.playerHands.put('A',playerAHand );
         game.playerHands.put('B', playerBHand);
-        assertThrowsLike("Not your turn", () -> game.drawCardS('B', Red9));
+        assertThrowsLike(NotYourTurn, () -> game.drawCard('B', Red9));
+    }
+    @Test
+    public void testDrawChangesTurn() {
+        UnoGame game = new UnoGame( 'A', 'B');
+        game.playerHands.put('A',playerAHand );
+        game.playerHands.put('B', playerBHand);
+        game.drawCard('A', Red9);
+        assertEquals('B', game.getCurrentPlayer());
     }
 
     @Test

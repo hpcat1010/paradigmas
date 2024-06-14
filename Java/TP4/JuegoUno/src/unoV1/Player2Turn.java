@@ -12,8 +12,11 @@ class Player2Turn extends GameStatus {
     }
 
     @Override
-    public void playCard(Card aCard) {
-        PlayCardsAsPlayer2(aCard);
+    public void playCard(char aPlayer, Card aCard) {
+        if (aPlayer == 'A')
+            PlayCardsAsPlayer1(aCard);
+        else
+            PlayCardsAsPlayer2(aCard);
     }
 
     public GameStatus nextTurn() {
@@ -26,11 +29,20 @@ class Player2Turn extends GameStatus {
     }
 
     @Override
-    public void drawCards(char player, int numberCards) {
-        drawCardsAsPlayer2(player, numberCards);
+    public void drawCard(char player, Card aCard) {
+        if (player == 'A') {
+            drawCardsAsPlayer2(aCard);
+        } else {
+            drawCardsAsPlayer1(aCard);
+
+        }
     }
 
-    public void drawCardsAsPlayer2(char player, int numberCards) {
-        game.methodDrawCardS('B', numberCards);
+    public void drawCardsAsPlayer2(Card aCard) {
+        game.playerHands.get('A').add(aCard);
+        game.nextPlayer();
     }
+
+
+
 }

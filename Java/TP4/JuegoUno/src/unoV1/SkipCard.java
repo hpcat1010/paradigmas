@@ -5,7 +5,7 @@ public class SkipCard extends SpecialCard{
         super(aColor,aValue);
     }
     public void effect(UnoGame aGame){
-        aGame.nextPlayer(aGame.direction);
+        aGame.nextPlayer();
     }
 
     @Override
